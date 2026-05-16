@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎂 Happy Birthday! 🕷️</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Patrick+Hand&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fef2f2 0%, #eff6ff 50%, #fef2f2 100%);
+      background-attachment: fixed;
+    }
+    
+    .font-handwriting {
+      font-family: 'Caveat', cursive;
+    }
+    
+    .font-cute {
+      font-family: 'Patrick Hand', cursive;
+    }
+
+    /* Paper texture */
+    .paper-texture {
+      background: #fffef5;
+      background-image: 
+        linear-gradient(90deg, transparent 79px, #f0e6d3 79px, #f0e6d3 81px, transparent 81px),
+        linear-gradient(#f5f0e6 .1em, transparent .1em);
+      background-size: 100% 1.5em;
+    }
+
+    /* Sticky note styles */
+    .sticky-note {
+      background: linear-gradient(180deg, #fef08a 0%, #fde047 100%);
+      box-shadow: 
+        2px 2px 8px rgba(0,0,0,0.1),
+        inset 0 -40px 40px -40px rgba(0,0,0,0.05);
+      transform: rotate(-2deg);
+      transition: all 0.3s ease;
+    }
+    
+    .sticky-note:hover {
+      transform: rotate(0deg) scale(1.05);
+      box-shadow: 4px 4px 15px rgba(0,0,0,0.15);
+    }
+    
+    .sticky-note.pink {
+      background: linear-gradient(180deg, #fecdd3 0%, #fda4af 100%);
+    }
+    
+    .sticky-note.blue {
+      background: linear-gradient(180deg, #bfdbfe 0%, #93c5fd 100%);
+    }
+    
+    .sticky-note.green {
+      background: linear-gradient(180deg, #bbf7d0 0%, #86efac 100%);
+    }
+
+    /* Polaroid style */
+    .polaroid {
+      background: white;
+      padding: 12px 12px 50px 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      transition: all 0.4s ease;
+    }
+    
+    .polaroid:hover {
+      transform: scale(1.08) rotate(0deg) !important;
+      z-index: 10;
+    }
+
+    /* Tape effect */
+    .tape {
+      background: linear-gradient(90deg, 
+        rgba(255,255,255,0.1) 0%, 
+        rgba(255,255,255,0.3) 50%, 
+        rgba(255,255,255,0.1) 100%
+      );
+      background-color: rgba(255, 220, 180, 0.7);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    /* Spider animation */
+    @keyframes spider-swing {
+      0%, 100% { transform: rotate(-15deg); }
+      50% { transform: rotate(15deg); }
+    }
+    
+    @keyframes spider-drop {
+      0% { transform: translateY(-100vh); }
+      60% { transform: translateY(0); }
+      70% { transform: translateY(-30px); }
+      80% { transform: translateY(0); }
+      90% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(var(--rotation, 0deg)); }
+      50% { transform: translateY(-15px) rotate(var(--rotation, 0deg)); }
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes heart-beat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.15); }
+    }
+
+    .spider-swing {
+      animation: spider-swing 2s ease-in-out infinite;
+      transform-origin: top center;
+    }
+    
+    .float {
+      animation: float 4s ease-in-out infinite;
+    }
+    
+    .sparkle {
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    .heart-beat {
+      animation: heart-beat 1.5s ease-in-out infinite;
+    }
+
+    /* Web pattern */
+    .web-pattern {
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0v60M0 30h60M30 30L0 0M30 30L60 0M30 30L60 60M30 30L0 60' stroke='%23dc262620' stroke-width='0.5' fill='none'/%3E%3C/svg%3E");
+    }
+
+    /* Doodle underline */
+    .doodle-underline {
+      position: relative;
+    }
+    
+    .doodle-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: url("data:image/svg+xml,%3Csvg width='100' height='8' viewBox='0 0 100 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 5 Q25 0 50 5 T100 5' stroke='%23ef4444' stroke-width='2' fill='none'/%3E%3C/svg%3E") repeat-x;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #fef2f2;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #f87171, #3b82f6);
+      border-radius: 10px;
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body class="min-h-screen overflow-x-hidden">
+  <!-- Floating Spider Doodles -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <!-- Spider 1 -->
+    <div class="absolute top-20 left-10 spider-swing" style="animation-delay: 0s;">
+      <div class="w-1 bg-gray-400 h-32 mx-auto"></div>
+      <svg class="w-12 h-12 text-red-500" viewBox="0 0 100 100">
+        <circle cx="50" cy="40" r="25" fill="currentColor"/>
+        <circle cx="50" cy="70" r="20" fill="currentColor"/>
+        <circle cx="42" cy="35" r="6" fill="white"/>
+        <circle cx="58" cy="35" r="6" fill="white"/>
+        <path d="M20 30 Q35 40 40 50" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M80 30 Q65 40 60 50" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M15 50 Q35 55 40 60" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M85 50 Q65 55 60 60" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M20 70 Q35 65 40 70" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M80 70 Q65 65 60 70" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M25 85 Q38 75 45 80" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M75 85 Q62 75 55 80" stroke="currentColor" stroke-width="4" fill="none"/>
+      </svg>
+    </div>
+    
+    <!-- Spider 2 -->
+    <div class="absolute top-40 right-20 spider-swing" style="animation-delay: 0.5s;">
+      <div class="w-0.5 bg-gray-300 h-48 mx-auto"></div>
+      <svg class="w-8 h-8 text-blue-500" viewBox="0 0 100 100">
+        <circle cx="50" cy="40" r="25" fill="currentColor"/>
+        <circle cx="50" cy="70" r="20" fill="currentColor"/>
+        <circle cx="42" cy="35" r="6" fill="white"/>
+        <circle cx="58" cy="35" r="6" fill="white"/>
+        <path d="M20 30 Q35 40 40 50" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M80 30 Q65 40 60 50" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M15 50 Q35 55 40 60" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M85 50 Q65 55 60 60" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M20 70 Q35 65 40 70" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M80 70 Q65 65 60 70" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M25 85 Q38 75 45 80" stroke="currentColor" stroke-width="4" fill="none"/>
+        <path d="M75 85 Q62 75 55 80" stroke="currentColor" stroke-width="4" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- Floating hearts and stars -->
+    <div class="absolute top-1/4 left-1/4 float text-pink-400 text-2xl" style="--rotation: -10deg; animation-delay: 0.2s;">❤️</div>
+    <div class="absolute top-1/3 right-1/3 float text-yellow-400 text-xl" style="--rotation: 15deg; animation-delay: 0.8s;">⭐</div>
+    <div class="absolute top-2/3 left-1/5 float text-red-400 text-lg" style="--rotation: -5deg; animation-delay: 1.2s;">🕷️</div>
+    <div class="absolute top-1/2 right-1/4 float text-blue-400 text-2xl" style="--rotation: 8deg; animation-delay: 0.5s;">✨</div>
+    <div class="absolute bottom-1/4 left-1/3 float text-pink-300 text-xl" style="--rotation: -12deg; animation-delay: 1s;">💕</div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="min-h-screen flex items-center justify-center relative web-pattern py-20">
+    <div class="text-center px-4 relative z-10">
+      <!-- Tape decoration -->
+      <div class="tape w-24 h-6 absolute -top-8 left-1/2 -translate-x-1/2 rotate-12 rounded-sm"></div>
+      
+      <!-- Main title -->
+      <div class="relative inline-block">
+        <h1 class="font-handwriting text-6xl md:text-8xl lg:text-9xl text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-pink-500 to-blue-500 mb-4 drop-shadow-lg">
+          Happy Birthday!
+        </h1>
+        <div class="absolute -top-4 -right-4 text-4xl sparkle" style="animation-delay: 0.3s;">✨</div>
+        <div class="absolute -bottom-2 -left-4 text-3xl sparkle" style="animation-delay: 0.7s;">💫</div>
+      </div>
+      
+      <!-- Spider-Man themed subtitle -->
+      <div class="mt-8 relative">
+        <p class="font-cute text-2xl md:text-3xl text-gray-700">
+          To my <span class="text-red-500 doodle-underline">friendly neighborhood</span> cayang 🕸️
+        </p>
+      </div>
+      
+      <!-- Cute message -->
+      <div class="mt-12 max-w-md mx-auto">
+        <div class="sticky-note pink p-6 rounded-lg">
+          <p class="font-handwriting text-xl md:text-2xl text-gray-800">
+            "With great power comes great responsibility... to celebrate YOU today!" 🎉
+          </p>
+        </div>
+      </div>
+      
+      <!-- Scroll indicator -->
+      <div class="mt-16 animate-bounce">
+        <p class="font-cute text-gray-500 mb-2">scroll down for more surprises!</p>
+        <svg class="w-8 h-8 mx-auto text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Corner web decoration -->
+    <svg class="absolute top-0 left-0 w-40 h-40 text-red-200 opacity-50" viewBox="0 0 100 100">
+      <path d="M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M0 0 L25 100 M0 0 L100 25" stroke="currentColor" stroke-width="0.5" fill="none"/>
+      <path d="M10 10 Q50 10 50 50 Q10 50 10 10" stroke="currentColor" stroke-width="0.5" fill="none"/>
+      <path d="M20 20 Q50 20 50 50 Q20 50 20 20" stroke="currentColor" stroke-width="0.5" fill="none"/>
+    </svg>
+    
+    <svg class="absolute bottom-0 right-0 w-40 h-40 text-blue-200 opacity-50 rotate-180" viewBox="0 0 100 100">
+      <path d="M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M0 0 L25 100 M0 0 L100 25" stroke="currentColor" stroke-width="0.5" fill="none"/>
+      <path d="M10 10 Q50 10 50 50 Q10 50 10 10" stroke="currentColor" stroke-width="0.5" fill="none"/>
+      <path d="M20 20 Q50 20 50 50 Q20 50 20 20" stroke="currentColor" stroke-width="0.5" fill="none"/>
+    </svg>
+  </section>
+
+  <!-- Photo Gallery Section -->
+  <section class="py-20 px-4 md:px-8 relative">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="font-handwriting text-4xl md:text-5xl text-center text-gray-800 mb-4">
+        📸 Our Memories Together
+      </h2>
+      <p class="font-cute text-center text-gray-500 mb-12">hover to see the magic ✨</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+        <!-- Polaroid 1 -->
+        <div class="polaroid rotate-[-4deg] hover:rotate-0 mx-auto">
+          <div class="w-56 h-56 bg-gradient-to-br from-red-100 to-blue-100 flex items-center justify-center relative overflow-hidden">
+            <span class="text-6xl">🕷️</span>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+          </div>
+          <p class="font-handwriting text-center text-gray-700 text-lg mt-2">that time we watched spider-verse 🎬</p>
+          <div class="tape w-16 h-4 absolute -top-2 left-1/2 -translate-x-1/2 -rotate-6 rounded-sm"></div>
+        </div>
+        
+        <!-- Polaroid 2 -->
+        <div class="polaroid rotate-[3deg] hover:rotate-0 mx-auto">
+          <div class="w-56 h-56 bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center relative overflow-hidden">
+            <span class="text-6xl">🎂</span>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+          </div>
+          <p class="font-handwriting text-center text-gray-700 text-lg mt-2">birthday vibes only! 🎉</p>
+          <div class="tape w-16 h-4 absolute -top-2 left-1/2 -translate-x-1/2 rotate-3 rounded-sm"></div>
+        </div>
+        
+        <!-- Polaroid 3 -->
+        <div class="polaroid rotate-[-2deg] hover:rotate-0 mx-auto">
+          <div class="w-56 h-56 bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center relative overflow-hidden">
+            <span class="text-6xl">💝</span>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+          </div>
+          <p class="font-handwriting text-center text-gray-700 text-lg mt-2">us being us hehe 💕</p>
+          <div class="tape w-16 h-4 absolute -top-2 left-1/2 -translate-x-1/2 -rotate-12 rounded-sm"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Notes Messages Section -->
+  <section class="py-20 px-4 md:px-8 bg-gradient-to-b from-transparent via-blue-50/30 to-transparent">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="font-handwriting text-4xl md:text-5xl text-center text-gray-800 mb-16">
+        💌 Little Notes for You
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <!-- Note 1 -->
+        <div class="sticky-note p-6 rounded-sm rotate-[-3deg]">
+          <p class="font-handwriting text-xl text-gray-800">
+            gws kalau pusing lagi 😭
+            <br><br>
+            (get well soon ya sayangku)
+          </p>
+          <div class="absolute top-2 right-2 text-2xl">🩹</div>
+        </div>
+        
+        <!-- Note 2 -->
+        <div class="sticky-note blue p-6 rounded-sm rotate-[2deg]">
+          <p class="font-handwriting text-xl text-gray-800">
+            kamu tuh kayak Peter Parker...
+            <br><br>
+            awkward tapi lovable banget! 🕷️❤️
+          </p>
+        </div>
+        
+        <!-- Note 3 -->
+        <div class="sticky-note pink p-6 rounded-sm rotate-[-1deg]">
+          <p class="font-handwriting text-xl text-gray-800">
+            makasih udah jadi MJ-ku 
+            <br>
+            (minus drama villain-nya ya) 
+            <br>😂💕
+          </p>
+        </div>
+        
+        <!-- Note 4 -->
+        <div class="sticky-note green p-6 rounded-sm rotate-[3deg]">
+          <p class="font-handwriting text-xl text-gray-800">
+            fun fact:
+            <br>
+            I smile every time I see your name pop up 📱✨
+          </p>
+        </div>
+        
+        <!-- Note 5 -->
+        <div class="sticky-note p-6 rounded-sm rotate-[-2deg]">
+          <p class="font-handwriting text-xl text-gray-800">
+            "I love you in every universe"
+            <br><br>
+            - probably me, 2024 🌌
+          </p>
+        </div>
+        
+        <!-- Note 6 -->
+        <div class="sticky-note blue p-6 rounded-sm rotate-[1deg]">
+          <p class="font-handwriting text-xl text-gray-800">
+            reminder: you're amazing and don't let anyone tell you otherwise! 
+            <br>💪🔥
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fun Facts Section -->
+  <section class="py-20 px-4 md:px-8">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="font-handwriting text-4xl md:text-5xl text-center text-gray-800 mb-4">
+        🎯 Fun Facts About Us
+      </h2>
+      <p class="font-cute text-center text-gray-500 mb-12">things that make us, us ✨</p>
+      
+      <div class="space-y-6">
+        <!-- Fact 1 -->
+        <div class="paper-texture p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow relative">
+          <div class="tape w-20 h-5 absolute -top-2 left-8 -rotate-6 rounded-sm"></div>
+          <div class="flex items-center gap-4">
+            <div class="text-4xl">🎵</div>
+            <div>
+              <h3 class="font-cute text-xl text-gray-800">Spotify Blend Compatibility</h3>
+              <div class="flex items-center gap-2 mt-2">
+                <div class="h-3 bg-gradient-to-r from-green-400 to-green-500 rounded-full" style="width: 98%;"></div>
+                <span class="font-handwriting text-2xl text-green-600 font-bold">98%</span>
+              </div>
+              <p class="font-cute text-gray-500 text-sm mt-1">basically the same person musically 🎧</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Fact 2 -->
+        <div class="paper-texture p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow relative">
+          <div class="tape w-20 h-5 absolute -top-2 right-8 rotate-3 rounded-sm"></div>
+          <div class="flex items-center gap-4">
+            <div class="text-4xl">🕸️</div>
+            <div>
+              <h3 class="font-cute text-xl text-gray-800">Spider-Man Movies Watched Together</h3>
+              <p class="font-handwriting text-3xl text-red-500 mt-1">∞ times</p>
+              <p class="font-cute text-gray-500 text-sm mt-1">and we'll watch it again tomorrow 🍿</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Fact 3 -->
+        <div class="paper-texture p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow relative">
+          <div class="tape w-20 h-5 absolute -top-2 left-1/2 -translate-x-1/2 -rotate-2 rounded-sm"></div>
+          <div class="flex items-center gap-4">
+            <div class="text-4xl">💬</div>
+            <div>
+              <h3 class="font-cute text-xl text-gray-800">Late Night Texts Exchanged</h3>
+              <p class="font-handwriting text-3xl text-blue-500 mt-1">too many to count 📱</p>
+              <p class="font-cute text-gray-500 text-sm mt-1">sleep is for the weak anyway 😴</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Fact 4 -->
+        <div class="paper-texture p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow relative">
+          <div class="tape w-20 h-5 absolute -top-2 left-12 rotate-6 rounded-sm"></div>
+          <div class="flex items-center gap-4">
+            <div class="text-4xl heart-beat">❤️</div>
+            <div>
+              <h3 class="font-cute text-xl text-gray-800">Times You Made Me Smile Today</h3>
+              <p class="font-handwriting text-3xl text-pink-500 mt-1" id="smile-counter">calculating...</p>
+              <p class="font-cute text-gray-500 text-sm mt-1">spoiler: it's a lot 😊</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spotify Section -->
+  <section class="py-20 px-4 md:px-8 bg-gradient-to-b from-transparent via-pink-50/30 to-transparent">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="font-handwriting text-4xl md:text-5xl text-gray-800 mb-4">
+        🎧 A Song For You
+      </h2>
+      <p class="font-cute text-gray-500 mb-8">our playlist, our memories 💕</p>
+      
+      <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 right-0 w-40 h-40 bg-green-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10">
+          <!-- Album art placeholder -->
+          <div class="w-48 h-48 mx-auto mb-6 rounded-lg bg-gradient-to-br from-red-500 via-pink-500 to-blue-500 shadow-lg flex items-center justify-center relative overflow-hidden">
+            <span class="text-6xl">🎵</span>
+            <div class="absolute inset-0 bg-black/10"></div>
+          </div>
+          
+          <h3 class="font-cute text-2xl text-white mb-2">&ldquo;Sunflower&rdquo;</h3>
+          <p class="text-gray-400 font-cute">Post Malone, Swae Lee</p>
+          <p class="text-gray-500 text-sm font-cute mt-1">from Spider-Man: Into the Spider-Verse 🕷️</p>
+          
+          <!-- Fake player controls -->
+          <div class="mt-8">
+            <div class="w-full h-1 bg-gray-700 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-green-400 to-green-500 rounded-full animate-pulse" style="width: 45%;"></div>
+            </div>
+            <div class="flex justify-between text-gray-500 text-xs mt-2 font-cute">
+              <span>1:23</span>
+              <span>2:38</span>
+            </div>
+          </div>
+          
+          <!-- Play controls -->
+          <div class="flex items-center justify-center gap-8 mt-6">
+            <button class="text-gray-400 hover:text-white transition-colors">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+            </button>
+            <button class="w-14 h-14 bg-white rounded-full flex items-center justify-center hover:scale-105 transition-transform shadow-lg" id="play-btn">
+              <svg class="w-6 h-6 text-gray-900 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <button class="text-gray-400 hover:text-white transition-colors">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final Message Section -->
+  <section class="py-20 px-4 md:px-8 relative overflow-hidden">
+    <div class="max-w-3xl mx-auto text-center relative z-10">
+      <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-xl relative">
+        <!-- Tape decorations -->
+        <div class="tape w-24 h-6 absolute -top-3 left-8 -rotate-12 rounded-sm"></div>
+        <div class="tape w-20 h-5 absolute -top-2 right-12 rotate-6 rounded-sm"></div>
+        
+        <div class="text-6xl mb-6">🎂</div>
+        
+        <h2 class="font-handwriting text-4xl md:text-5xl text-gray-800 mb-6">
+          One Last Thing...
+        </h2>
+        
+        <div class="space-y-4 font-cute text-lg md:text-xl text-gray-700 leading-relaxed">
+          <p>Selamat ulang tahun, sayangku! 🎉</p>
+          <p>Terima kasih sudah jadi bagian dari hidupku.</p>
+          <p>Kamu adalah <span class="text-red-500 font-bold">superhero</span> dalam ceritaku sendiri.</p>
+          <p class="text-2xl mt-6">💕 I love you 3000 💕</p>
+        </div>
+        
+        <!-- Big birthday button -->
+        <button 
+          id="birthday-btn"
+          class="mt-10 px-8 py-4 bg-gradient-to-r from-red-500 via-pink-500 to-blue-500 text-white font-cute text-xl rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 relative overflow-hidden"
+        >
+          <span class="relative z-10">🎈 Make a Wish! 🎈</span>
+          <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full hover:translate-x-full transition-transform duration-700"></div>
+        </button>
+        
+        <p class="font-handwriting text-gray-500 mt-4 text-lg">click for a surprise! ✨</p>
+      </div>
+    </div>
+    
+    <!-- Background hearts -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-1/4 left-1/4 text-4xl opacity-20 float" style="--rotation: -10deg;">❤️</div>
+      <div class="absolute top-1/3 right-1/4 text-3xl opacity-20 float" style="--rotation: 15deg; animation-delay: 0.5s;">💕</div>
+      <div class="absolute bottom-1/4 left-1/3 text-5xl opacity-20 float" style="--rotation: 5deg; animation-delay: 1s;">💖</div>
+      <div class="absolute bottom-1/3 right-1/3 text-4xl opacity-20 float" style="--rotation: -8deg; animation-delay: 0.3s;">💝</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 text-center bg-gradient-to-r from-red-50 via-pink-50 to-blue-50">
+    <p class="font-handwriting text-xl text-gray-600">
+      Made with 💕 by your friendly neighborhood cayang
+    </p>
+    <p class="font-cute text-gray-400 text-sm mt-2">
+      🕷️ "Anyone can wear the mask" - Spider-Verse 🕸️
+    </p>
+  </footer>
+
+  <script>
+    // Smile counter animation
+    function animateCounter() {
+      const counter = document.getElementById('smile-counter');
+      let count = 0;
+      const target = 999;
+      const duration = 2000;
+      const start = Date.now();
+      
+      function update() {
+        const elapsed = Date.now() - start;
+        const progress = Math.min(elapsed / duration, 1);
+        count = Math.floor(progress * target);
+        counter.textContent = count + '+';
+        
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          counter.textContent = '999+ (and counting!)';
+        }
+      }
+      
+      update();
+    }
+    
+    // Run counter when section is visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    observer.observe(document.getElementById('smile-counter').parentElement.parentElement);
+    
+    // Confetti function
+    function createConfetti() {
+      const colors = ['#ef4444', '#3b82f6', '#ec4899', '#f59e0b', '#10b981', '#8b5cf6'];
+      const emojis = ['🎉', '🎊', '✨', '💕', '🕷️', '🕸️', '⭐', '🎈', '🎂', '💖'];
+      
+      for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + 'vw';
+          confetti.style.top = '-20px';
+          confetti.style.fontSize = (Math.random() * 20 + 15) + 'px';
+          
+          // Mix of colored dots and emojis
+          if (Math.random() > 0.3) {
+            confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          } else {
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+          }
+          
+          document.body.appendChild(confetti);
+          
+          // Animate falling
+          const duration = Math.random() * 3000 + 2000;
+          const rotation = Math.random() * 720 - 360;
+          const drift = Math.random() * 200 - 100;
+          
+          confetti.animate([
+            { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+            { transform: `translateY(100vh) translateX(${drift}px) rotate(${rotation}deg)`, opacity: 0 }
+          ], {
+            duration: duration,
+            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+          }).onfinish = () => confetti.remove();
+        }, i * 30);
+      }
+    }
+    
+    // Birthday button click
+    document.getElementById('birthday-btn').addEventListener('click', function() {
+      createConfetti();
+      
+      // Show special message
+      const btn = this;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span class="relative z-10">🎊 Happy Birthday! 🎊</span>';
+      btn.classList.add('animate-pulse');
+      
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('animate-pulse');
+      }, 3000);
+    });
+    
+    // Play button animation
+    document.getElementById('play-btn').addEventListener('click', function() {
+      this.classList.toggle('bg-green-500');
+      const icon = this.querySelector('svg');
+      
+      if (this.classList.contains('bg-green-500')) {
+        icon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+      } else {
+        icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+      }
+    });
+    
+    // Add parallax effect to floating elements
+    document.addEventListener('mousemove', (e) => {
+      const floatingElements = document.querySelectorAll('.float');
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      floatingElements.forEach((el, index) => {
+        const speed = (index + 1) * 0.5;
+        el.style.transform = `translate(${x * speed * 20}px, ${y * speed * 20}px)`;
+      });
+    });
+    
+    // Smooth scroll for better experience
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
