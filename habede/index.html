@@ -7,10 +7,10 @@
   <script>
     (function () {
       window.habedeCountdown = {
-        targetTime: Number("__HABEDE_TARGET_TIME__"),
-        serverTime: Number("__HABEDE_SERVER_TIME__"),
-        startTime: Number("__HABEDE_START_TIME__"),
-        timeServerUrl: "__HABEDE_TIME_SERVER_URL__"
+        targetTime: Date.parse("2026-12-31T00:00:00+07:00"),
+        serverTime: NaN,
+        startTime: Date.parse("2026-01-01T00:00:00+07:00"),
+        timeServerUrl: "https://server-time.nazuraarsya.workers.dev/"
       };
     })();
   </script>
@@ -281,6 +281,7 @@
       var startTime = Number(config.startTime);
       var timeServerUrl = String(config.timeServerUrl || "");
       var loadedAt = performance.now();
+      var hasSyncedTime = Number.isFinite(serverTime);
       var syncTimer = 0;
       var day = document.getElementById("days");
       var hour = document.getElementById("hours");
@@ -300,6 +301,7 @@
       function setServerTime(value) {
         serverTime = value;
         loadedAt = performance.now();
+        hasSyncedTime = true;
       }
 
       function parseServerTime(data) {
@@ -311,7 +313,7 @@
       }
 
       function syncServerTime() {
-        if (!timeServerUrl || timeServerUrl.indexOf("__HABEDE_") === 0) {
+        if (!timeServerUrl) {
           return Promise.reject(new Error("Time server URL belum tersedia."));
         }
 
@@ -337,12 +339,17 @@
       }
 
       function requestServerUnlock() {
-        window.location.replace(window.location.pathname + "?unlock=" + Math.floor(performance.now()));
+        window.location.replace(atob("YmlydGhkYXkuaHRtbA=="));
       }
 
       function updateCountdown() {
-        if (!Number.isFinite(targetTime) || !Number.isFinite(serverTime) || !Number.isFinite(startTime)) {
-          statusText.textContent = "Buka halaman ini lewat /habede agar countdown memakai waktu server.";
+        if (!Number.isFinite(targetTime) || !Number.isFinite(startTime)) {
+          statusText.textContent = "Konfigurasi countdown belum valid.";
+          return;
+        }
+
+        if (!hasSyncedTime) {
+          statusText.textContent = "Menghubungi server waktu...";
           return;
         }
 
@@ -370,10 +377,10 @@
         progressFill.style.width = progress.toFixed(2) + "%";
       }
 
-      updateCountdown();
+      statusText.textContent = "Menghubungi server waktu...";
       setInterval(updateCountdown, 1000);
       syncServerTime().catch(function () {
-        statusText.textContent = "Tidak bisa sinkron ke server waktu, memakai waktu server terakhir dari halaman.";
+        statusText.textContent = "Tidak bisa menghubungi server waktu. Coba refresh halaman.";
       });
       syncTimer = setInterval(syncServerTime, 60000);
       window.addEventListener("beforeunload", function () {
