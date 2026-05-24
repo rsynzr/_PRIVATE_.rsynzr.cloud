@@ -5,7 +5,7 @@ import { useEffect } from "react"
 export default function BirthdayPage() {
   useEffect(() => {
     // Redirect to the HTML file
-    window.location.href = "/birthday.html"
+    window.location.href = "/habede/index.html"
   }, [])
 
   return (

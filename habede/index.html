@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown ke 31 Desember</title>
+  <script>
+    (function () {
+      window.habedeCountdown = {
+        targetTime: Number("__HABEDE_TARGET_TIME__"),
+        serverTime: Number("__HABEDE_SERVER_TIME__"),
+        startTime: Number("__HABEDE_START_TIME__")
+      };
+    })();
+  </script>
+  <style>
+    :root {
+      --ink: #23233a;
+      --muted: #6b7280;
+      --paper: #fffdf7;
+      --red: #ef4444;
+      --blue: #2563eb;
+      --yellow: #f8d66d;
+      --mint: #b7f0d5;
+      --shadow: 0 18px 45px rgba(35, 35, 58, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 18%, rgba(248, 214, 109, 0.35), transparent 24%),
+        radial-gradient(circle at 82% 12%, rgba(183, 240, 213, 0.45), transparent 26%),
+        linear-gradient(135deg, #fff7f0 0%, #eef6ff 58%, #fffdf7 100%);
+      overflow-x: hidden;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 32px 18px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .page::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image: url("data:image/svg+xml,%3Csvg width='88' height='88' viewBox='0 0 88 88' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ef444430' stroke-width='1'%3E%3Cpath d='M0 44h88M44 0v88M12 12l64 64M76 12L12 76'/%3E%3Ccircle cx='44' cy='44' r='18'/%3E%3Ccircle cx='44' cy='44' r='32'/%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.28;
+    }
+
+    .page::after {
+      content: "";
+      position: fixed;
+      inset: auto 0 0 0;
+      height: 14px;
+      background: repeating-linear-gradient(90deg, var(--red) 0 54px, #ffffff 54px 72px, var(--blue) 72px 126px, #ffffff 126px 144px);
+      z-index: -1;
+    }
+
+    .wrap {
+      width: min(920px, 100%);
+      display: grid;
+      gap: 28px;
+    }
+
+    .header {
+      display: grid;
+      gap: 14px;
+      text-align: center;
+    }
+
+    .badge {
+      width: fit-content;
+      margin: 0 auto;
+      padding: 8px 14px;
+      border: 1px solid rgba(239, 68, 68, 0.24);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: #b91c1c;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.09);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 8vw, 5.9rem);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 620px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.8vw, 1.18rem);
+      line-height: 1.7;
+    }
+
+    .target-date {
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(118px, 1fr));
+      gap: 14px;
+    }
+
+    .time-box {
+      min-height: 146px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 8px;
+      padding: 18px 12px;
+      border: 1px solid rgba(35, 35, 58, 0.1);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .time-box::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 8px;
+      background: var(--accent, var(--red));
+    }
+
+    .time-box:nth-child(2) {
+      --accent: var(--blue);
+    }
+
+    .time-box:nth-child(3) {
+      --accent: var(--yellow);
+    }
+
+    .time-box:nth-child(4) {
+      --accent: var(--mint);
+    }
+
+    .value {
+      min-width: 2.6ch;
+      text-align: center;
+      font-size: clamp(2.4rem, 8vw, 4.5rem);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .note {
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      text-align: center;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .progress {
+      width: min(540px, 100%);
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(35, 35, 58, 0.1);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--red), var(--yellow), var(--blue));
+      transition: width 0.4s ease;
+    }
+
+    .small-print {
+      margin: 0;
+      font-size: 0.92rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 680px) {
+      .page {
+        padding: 28px 14px;
+      }
+
+      .countdown {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .time-box {
+        min-height: 124px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .countdown {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="wrap" aria-label="Countdown ke 31 Desember">
+      <div class="header">
+        <div class="badge">Habede Countdown</div>
+        <h1>Sampai 31 Desember</h1>
+        <p class="subtitle">
+          Halaman spesial akan terbuka saat tanggalnya tiba:
+          <span class="target-date">31 Desember 2026</span>.
+        </p>
+      </div>
+
+      <div class="countdown" aria-live="polite">
+        <div class="time-box">
+          <div class="value" id="days">000</div>
+          <div class="label">Hari</div>
+        </div>
+        <div class="time-box">
+          <div class="value" id="hours">00</div>
+          <div class="label">Jam</div>
+        </div>
+        <div class="time-box">
+          <div class="value" id="minutes">00</div>
+          <div class="label">Menit</div>
+        </div>
+        <div class="time-box">
+          <div class="value" id="seconds">00</div>
+          <div class="label">Detik</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="progress" aria-hidden="true">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <p class="small-print" id="status-text">Menunggu tanggal spesial.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var config = window.habedeCountdown || {};
+      var targetTime = Number(config.targetTime);
+      var serverTime = Number(config.serverTime);
+      var startTime = Number(config.startTime);
+      var loadedAt = performance.now();
+      var day = document.getElementById("days");
+      var hour = document.getElementById("hours");
+      var minute = document.getElementById("minutes");
+      var second = document.getElementById("seconds");
+      var statusText = document.getElementById("status-text");
+      var progressFill = document.getElementById("progress-fill");
+
+      function pad(value, size) {
+        return String(value).padStart(size, "0");
+      }
+
+      function getServerNow() {
+        return serverTime + (performance.now() - loadedAt);
+      }
+
+      function requestServerUnlock() {
+        window.location.replace(window.location.pathname + "?unlock=" + Math.floor(performance.now()));
+      }
+
+      function updateCountdown() {
+        if (!Number.isFinite(targetTime) || !Number.isFinite(serverTime) || !Number.isFinite(startTime)) {
+          statusText.textContent = "Buka halaman ini lewat /habede agar countdown memakai waktu server.";
+          return;
+        }
+
+        var now = getServerNow();
+        var distance = targetTime - now;
+
+        if (distance <= 0) {
+          requestServerUnlock();
+          return;
+        }
+
+        var totalSeconds = Math.floor(distance / 1000);
+        var days = Math.floor(totalSeconds / 86400);
+        var hours = Math.floor((totalSeconds % 86400) / 3600);
+        var minutes = Math.floor((totalSeconds % 3600) / 60);
+        var seconds = totalSeconds % 60;
+        var elapsed = Math.max(0, now - startTime);
+        var duration = Math.max(1, targetTime - startTime);
+        var progress = Math.min(100, (elapsed / duration) * 100);
+
+        day.textContent = pad(days, 3);
+        hour.textContent = pad(hours, 2);
+        minute.textContent = pad(minutes, 2);
+        second.textContent = pad(seconds, 2);
+        progressFill.style.width = progress.toFixed(2) + "%";
+        statusText.textContent = "Sedikit lagi menuju 31 Desember.";
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    })();
+  </script>
+</body>
+</html>
