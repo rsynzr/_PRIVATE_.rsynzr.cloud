@@ -17,14 +17,14 @@ export async function GET(request: Request, context: RouteContext) {
   }
 
   if (file === "index.html") {
-    if (isUnlocked()) {
+    if (await isUnlocked()) {
       return NextResponse.redirect(new URL("/habede/birthday.html", request.url))
     }
 
     return htmlResponse(await renderCountdownHtml())
   }
 
-  if (!isUnlocked()) {
+  if (!(await isUnlocked())) {
     return NextResponse.redirect(new URL("/habede/index.html", request.url))
   }
 

@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic"
 export const revalidate = 0
 
 export async function GET(request: Request) {
-  if (isUnlocked()) {
+  if (await isUnlocked()) {
     return NextResponse.redirect(new URL("/habede/birthday.html", request.url))
   }
 
